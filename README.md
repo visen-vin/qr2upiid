@@ -5,6 +5,9 @@ A specialized PWA (Progressive Web App) utility designed to overcome standard UP
 ![Project Status](https://img.shields.io/badge/status-production--ready-green)
 ![Privacy](https://img.shields.io/badge/privacy-client--side--only-blue)
 
+**Live Demo:** [https://qr2upi.devv.in/](https://qr2upi.devv.in/)
+
+
 ## ⚠️ The Problem
 
 Many popular UPI applications in India enforce a strict **₹2,000 limit** when payments are initiated by scanning a QR code from the phone's gallery. This is often a friction point for users trying to pay legitimate merchants or friends using saved QR codes for higher amounts (e.g., rent, business vendors).

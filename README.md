@@ -1,81 +1,95 @@
-# qr2upiid
+# QR → UPI Payment Helper (v2)
 
-# UPI QR Code Generator & Scanner
+A specialized PWA (Progressive Web App) utility designed to overcome standard UPI gallery payment restrictions by leveraging raw intent extraction.
 
-This web application allows you to:
+![Project Status](https://img.shields.io/badge/status-production--ready-green)
+![Privacy](https://img.shields.io/badge/privacy-client--side--only-blue)
 
-* **Generate QR codes** for UPI IDs, making it easy to receive payments.
-* **Upload QR code images** to decode the UPI ID or other information.
-* **Scan QR codes directly** from your webcam.
+## ⚠️ The Problem
 
-The app features a minimal design with day/night themes for optimal user experience.
+Many popular UPI applications in India enforce a strict **₹2,000 limit** when payments are initiated by scanning a QR code from the phone's gallery. This is often a friction point for users trying to pay legitimate merchants or friends using saved QR codes for higher amounts (e.g., rent, business vendors).
 
-![QR Code Generator](data/generate_dark.png)
-![QR Code Generator](data/generate_dark.png)
-![QR Code to UPIID Generator](data/upload_dark.png)
-![QR Code to UPIID Generator](data/upload_dark.png)
+Interestingly, this restriction **does not apply** if the payment is initiated via a "Pay to UPI ID" flow or a direct intent link.
 
+## ✅ The Solution
 
-## Features
+This application acts as a "smart bridge" with a **CRED-inspired, privacy-first UI**:
 
-* Generate QR codes for any valid UPI ID.
-* Download generated QR codes as PNG images.
-* Upload and decode QR code images.
-* Scan QR codes using your webcam.
-* Day/night theme toggle for comfortable use in different environments.
-* Minimal and modern design.
-* Responsive layout for various screen sizes.
+1.  **Extracts**: Decodes QR codes locally in the browser (`jsQR`) to extract the raw UPI string (`upi://pay?pa=...`).
+2.  **Parses**: Identifies Payee Address (VPA), Name, and metadata.
+3.  **Enhances**: Provides a sophisticated transaction interface:
+    *   **Direct App Launch**: One-tap deep links for **Google Pay, PhonePe, Paytm, CRED, BHIM, and Amazon Pay**.
+    *   **Smart Amount Entry**: Quick-add chips (+₹1000, +₹2000) for rapid inputs.
+    *   **Trust Markers**: Verified payee display and security badges.
+4.  **Handoffs**: Triggers the native OS intent handler to complete the payment in your chosen app, bypassing gallery scan limits.
 
-## Technologies Used
+## 🏗️ Architecture
 
-* HTML5
-* CSS3
-* TypeScript
-* React
-* `qrcode.js` (for QR code generation)
-* `jsQR` (for QR code decoding/scanning)
-* Tailwind CSS (for styling)
-* Radix UI (for UI components)
+This project is built as a portfolio-grade demonstration of **Senior Frontend Architecture**, featuring a **Neo-Brutalist / Dark Mode** aesthetic.
 
-## Getting Started
+### Tech Stack
+-   **Framework**: Next.js 15 (App Router)
+-   **Language**: TypeScript (Strict Mode)
+-   **Styling**: Tailwind CSS 4.0 + Framer Motion (Animations)
+-   **State**: React 19 (Hooks, Transitions)
+-   **QR Engine**: `jsqr` (Client-side decoding)
 
-To get a local copy up and running, follow these steps:
+### Folder Structure
+```
+src/
+├── app/                 # Next.js App Router root
+├── components/          # UI Components
+│   ├── common/          # Atoms (Glass Card, Vibrancy Buttons)
+│   ├── payment/         # Payment Logic & App Grid
+│   └── upload/          # Drag-and-Drop QR Scanner
+├── hooks/               # Custom React hooks
+├── lib/                 # Core Business Logic
+│   ├── qr/              # Image Processing & Decoding
+│   └── upi/             # UPI String Parsing & App Configs
+└── types/               # Type Definitions
+```
 
-### Prerequisites
+### Key Architectural Decisions
 
-Make sure you have Node.js and npm installed on your machine.
+1.  **UI/UX Excellence**:
+    *   **Glassmorphism & Neon**: Uses `backdrop-blur`, subtle gradients, and glow effects for a premium feel.
+    *   **Interactive Motion**: `Framer Motion` for smooth collapsible menus and tactile button feedback.
+    *   **Mobile-First**: Touch-optimized targets (48px+) and responsive layouts.
 
-### Installation
+2.  **Privacy-First Design**:
+    *   All decoding happens via `jsQR` on the **Main Thread**.
+    *   **No server uploads**. The `File` object never leaves the client memory.
 
-1. Clone the repository:
-    ```sh
-    git clone https://github.com/vin-urs/qr2upi.git
-    ```
-2. Navigate to the project directory:
-    ```sh
-    cd qr2upiid
-    ```
-3. Install the dependencies:
-    ```sh
+3.  **Robust UPI Handling**:
+    *   **App-Specific Schemes**: Custom intent construction for `tez://` (GPay), `phonepe://`, `paytmmp://`, `cred://`, etc.
+    *   **Resilient Parsing**: Handles standard and non-standard UPI URI formats.
+
+---
+
+## 🚀 Getting Started
+
+1.  **Install Dependencies**
+    ```bash
     npm install
     ```
 
-### Running the Application
-
-1. Start the development server:
-    ```sh
+2.  **Run Development Server**
+    ```bash
     npm run dev
     ```
-2. Open your browser and navigate to `http://localhost:3000`.
 
-### Building for Production
+3.  **Build for Production**
+    ```bash
+    npm run build
+    npm start
+    ```
 
-To create a production build, run:
-```sh
-npm run build
-```
+## 🔒 Privacy & Security
 
-## Contact
+*   **Zero-Knowledge**: Validated via network inspection. No API calls are made with image data.
+*   **Source Available**: Code is fully transparent to audit.
 
-Reach out to me at:
-Vinayak Singh  - singhvinayakurs@gmail.com
+## ✍️ Author
+
+Designed & Engineered as a Portfolio Piece.
+**Vinayak Singh**
